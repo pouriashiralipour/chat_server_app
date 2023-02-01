@@ -5,13 +5,23 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const http = require('http')
+const { Socket } = require('socket.io')
 
 // create server 
 const server = http.createServer(app)
 // import socket.io on our server
 const io = require('socket.io')(server)
 
+
+// run socket in our server
+// socket.io
+io.on('connection', socket => {
+    console.log("a new socket connection")
+    console.log(socket.handshake)
+})
+
 // create port for server
+//  Restful APIs
 const port = process.env.PORT || 3000
 
 app.get('/', (req, res)=>{
@@ -19,6 +29,7 @@ app.get('/', (req, res)=>{
 })
 
 // run server that we created
+// Server listener
 server.listen(port, ()=>{
     console.log(`server is runnig on port: ${port}`)
 })
