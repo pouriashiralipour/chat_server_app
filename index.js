@@ -16,8 +16,10 @@ const io = require('socket.io')(server)
 // run socket in our server
 // socket.io
 io.on('connection', socket => {
-    console.log(`a new socket connection with id => (${socket.id})`)
-    console.log(socket.handshake)
+    const socketId = socket.id
+    const userId = socket.handshake.query.userId
+    console.log(`a new socket connection with id => (${userId})`)
+    
 })
 
 // create port for server
