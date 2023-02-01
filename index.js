@@ -1,3 +1,6 @@
+// import dotenv library for use .env file
+require('dotenv').config()
+
 //  import library that we need
 const express = require('express')
 const app = express()
