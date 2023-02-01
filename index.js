@@ -13,3 +13,8 @@ const io = require('socket.io')(server)
 
 // create port for server
 const port = process.env.PORT || 3000
+
+// run server that we created
+server.listen(port, ()=>{
+    console.log(`server is runnig on port: ${port}`)
+})
