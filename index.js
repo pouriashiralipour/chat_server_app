@@ -18,7 +18,14 @@ const io = require('socket.io')(server)
 io.on('connection', socket => {
     const socketId = socket.id
     const userId = socket.handshake.query.userId
+
+    // who connected ?
     console.log(`a new socket connection with id => (${userId})`)
+
+    // who disconnected ?
+    socket.on('disconnect', (event)=>{
+        console.log(`user (${userId}) disconnected.`)
+    })
     
 })
 
