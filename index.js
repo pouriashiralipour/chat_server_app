@@ -16,7 +16,7 @@ const io = require('socket.io')(server)
 // run socket in our server
 // socket.io
 io.on('connection', socket => {
-    console.log("a new socket connection")
+    console.log(`a new socket connection with id => (${socket.id})`)
     console.log(socket.handshake)
 })
 
