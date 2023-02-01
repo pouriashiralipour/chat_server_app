@@ -9,7 +9,8 @@
   "author": "pouria.shirali",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2", 
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
     "nodemon": "^2.0.20",
     "socket.io": "^4.5.4"
   }
