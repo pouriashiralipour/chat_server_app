@@ -14,6 +14,10 @@ const io = require('socket.io')(server)
 // create port for server
 const port = process.env.PORT || 3000
 
+app.get('/', (req, res)=>{
+    res.send('<h1>HELLO! SERVER RUNNNIG</h1>')
+})
+
 // run server that we created
 server.listen(port, ()=>{
     console.log(`server is runnig on port: ${port}`)
