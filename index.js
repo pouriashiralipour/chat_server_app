@@ -33,7 +33,7 @@ io.on('connection', socket => {
     // function for join users to room
     socket.on('join-room', (event)=>{
         socket.join(`ROOMID::${event.roomId}`)
-        console.log(`use: ${userId} join to a room: ${event.roomId}`)
+        console.log(`user: ${userId} join to a room: ${event.roomId}`)
     })
 
     // function for leave users from room
@@ -45,13 +45,25 @@ io.on('connection', socket => {
 
     // send message to another user
     socket.on('send-message', (event)=>{
-        console.log(`user ${userId} send a message to ${event.to} => ${event.message}`)
-        const filterUsers = users.filter((elem) => elem.userId == event.to)
-        const receiverSocketId =  filterUsers[0].socketId
-        socket.broadcast.to(receiverSocketId).emit('onMessage', {
+
+        if(!!event.roomId){
+            // Multi persons
+            io.to(`ROOMID::${event.roomId}`).emit('onMessage', {
+                'message': event.message,
+                'from': userId,
+                'roomId': event.roomId
+            })
+            
+        }else{
+            // Indivisually 
+            console.log(`user ${userId} send a message to ${event.to} => ${event.message}`)
+            const filterUsers = users.filter((elem) => elem.userId == event.to)
+            const receiverSocketId =  filterUsers[0].socketId
+            socket.broadcast.to(receiverSocketId).emit('onMessage', {
             'message': event.message,
             'from': userId
-        })
+            })
+        }
     })
 
     // who disconnected ?
