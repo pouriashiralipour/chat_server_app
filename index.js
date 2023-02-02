@@ -11,6 +11,10 @@ const { Socket } = require('socket.io')
 const server = http.createServer(app)
 // import socket.io on our server
 const io = require('socket.io')(server)
+// variables
+const port = process.env.PORT || 3000
+const users = []
+
 
 
 // run socket in our server
@@ -18,25 +22,37 @@ const io = require('socket.io')(server)
 io.on('connection', socket => {
     const socketId = socket.id
     const userId = socket.handshake.query.userId
-
+    // function for find socketId and userId for give message 
+    users.push({
+        userId: userId,
+        socketId: socketId
+    })
     // who connected ?
     console.log(`a new socket connection with id => (${userId})`)
 
     // send message to another user
     socket.on('send-message', (event)=>{
         console.log(`user ${userId} send a message to ${event.to} => ${event.message}`)
+        const filterUsers = users.filter((elem) => elem.userId == event.to)
+        const receiverSocketId =  filterUsers[0].socketId
+        socket.broadcast.to(receiverSocketId).emit('onMessage', {
+            'message': event.message,
+            'from': userId
+        })
     })
 
     // who disconnected ?
     socket.on('disconnect', (event)=>{
         console.log(`user (${userId}) disconnected.`)
+        // delete userData
+        const index = users.indexOf((elem) => elem.userId == userId)
+        users.slice(index, 1)
     })
     
 })
 
 // create port for server
 //  Restful APIs
-const port = process.env.PORT || 3000
 
 app.get('/', (req, res)=>{
     res.send('<h1>HELLO! SERVER RUNNNIG</h1>')
