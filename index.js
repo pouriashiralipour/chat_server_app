@@ -24,7 +24,7 @@ io.on('connection', socket => {
 
     // send message to another user
     socket.on('send-message', (event)=>{
-        console.log(`user ${userId} send a message to ${event.to}`)
+        console.log(`user ${userId} send a message to ${event.to} => ${event.message}`)
     })
 
     // who disconnected ?
