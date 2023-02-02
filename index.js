@@ -59,10 +59,12 @@ io.on('connection', socket => {
             console.log(`user ${userId} send a message to ${event.to} => ${event.message}`)
             const filterUsers = users.filter((elem) => elem.userId == event.to)
             const receiverSocketId =  filterUsers[0].socketId
-            socket.broadcast.to(receiverSocketId).emit('onMessage', {
-            'message': event.message,
-            'from': userId
-            })
+            if(filterUsers.length > 0){
+                socket.broadcast.to(receiverSocketId).emit('onMessage', {
+                    'message': event.message,
+                    'from': userId
+                    })
+            }
         }
     })
 
