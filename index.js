@@ -22,6 +22,11 @@ io.on('connection', socket => {
     // who connected ?
     console.log(`a new socket connection with id => (${userId})`)
 
+    // send message to another user
+    socket.on('send-message', (event)=>{
+        console.log(`user ${userId} send a message to ${event.to}`)
+    })
+
     // who disconnected ?
     socket.on('disconnect', (event)=>{
         console.log(`user (${userId}) disconnected.`)
