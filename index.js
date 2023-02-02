@@ -36,6 +36,12 @@ io.on('connection', socket => {
         console.log(`use: ${userId} join to a room: ${event.roomId}`)
     })
 
+    // function for leave users from room
+    socket.on('leave-room', (event)=>{
+        socket.leave(`ROOMID::${event.roomId}`)
+        console.log(`use: ${userId} left to a room: ${event.roomId}`)
+    })
+
 
     // send message to another user
     socket.on('send-message', (event)=>{
