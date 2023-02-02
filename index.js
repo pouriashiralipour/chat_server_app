@@ -30,6 +30,13 @@ io.on('connection', socket => {
     // who connected ?
     console.log(`a new socket connection with id => (${userId})`)
 
+    // function for join users to room
+    socket.on('join-room', (event)=>{
+        socket.join(`ROOMID::${event.roomId}`)
+        console.log(`use: ${userId} join to a room: ${event.roomId}`)
+    })
+
+
     // send message to another user
     socket.on('send-message', (event)=>{
         console.log(`user ${userId} send a message to ${event.to} => ${event.message}`)
