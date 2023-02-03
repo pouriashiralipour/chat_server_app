@@ -5,6 +5,9 @@ require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
+// add bodyParser to app for handle
+app.use(bodyParser.urlencoded({extended: false}))
+
 const http = require('http')
 const { Socket } = require('socket.io')
 
