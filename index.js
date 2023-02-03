@@ -11,6 +11,8 @@ const { Socket } = require('socket.io')
 const server = http.createServer(app)
 // import socket.io on our server
 const io = require('socket.io')(server)
+const mongoClient = require('mongodb').mongoClient
+
 // variables
 const port = process.env.PORT || 3000
 const users = []
