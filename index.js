@@ -96,10 +96,12 @@ app.post('/register', (req, res)=>{
     const fullName = req.body.fullname
 
     if(fullName == undefined || userName == undefined || password == undefined){
-        res.status(400).json({message: 'please send all the required values!'})
+        res.status(400).json({
+            message: 'please send all the required values!',
+            error_code: 'required_fields'
+        })
+        return
     }
-    return;
-
     MongoClient.connect(process.env.MONGO_URL, function(err, db){
         if (err) console.log(err)
         const dbo =db.db(process.env.DB_NAME)
