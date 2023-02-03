@@ -82,9 +82,13 @@ io.on('connection', socket => {
 
 // create port for server
 //  Restful APIs
-
 app.get('/', (req, res)=>{
     res.send('<h1>HELLO! SERVER RUNNNIG</h1>')
+})
+// Restful Api for register user
+app.post('/register', (req, res)=>{
+    const userName = req.body.username
+    const password = req.body.password
 })
 
 // run server that we created
