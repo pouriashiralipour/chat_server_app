@@ -6,7 +6,9 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 // add bodyParser to app for handle
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.urlencoded({
+    extended: false
+}))
 app.use(bodyParser.json())
 
 const http = require('http')
@@ -16,7 +18,7 @@ const { Socket } = require('socket.io')
 const server = http.createServer(app)
 // import socket.io on our server
 const io = require('socket.io')(server)
-const MongoClient = require('mongodb').mongoClient
+const MongoClient = require('mongodb').MongoClient
 
 // variables
 const port = process.env.PORT || 3000
@@ -92,17 +94,18 @@ app.get('/', (req, res)=>{
 })
 // Restful Api for register user
 app.post('/register', (req, res)=>{
+    const fullName = req.body.fullname
     const userName = req.body.username
     const password = req.body.password
-    const fullName = req.body.fullname
 
     if(fullName == undefined || userName == undefined || password == undefined){
         res.status(400).json({
             message: 'please send all the required values!',
             error_code: 'required_fields'
         })
-        return
+        return;
     }
+
     MongoClient.connect(process.env.MONGO_URL, function(err, db){
         if (err) console.log(err)
         const dbo =db.db(process.env.DB_NAME)
@@ -113,7 +116,7 @@ app.post('/register', (req, res)=>{
         }
         dbo.collection("users").insertOne(user, function (err, result){
             if (err) console.log(err)
-            res.send(result)
+            res.json(result)
             db.close()
         })
         
