@@ -3,6 +3,7 @@ require('dotenv').config()
 
 //  import library that we need
 const express = require('express')
+const bodyParser = require('body-parser')
 const app = express()
 const http = require('http')
 const { Socket } = require('socket.io')
