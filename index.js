@@ -7,6 +7,7 @@ const bodyParser = require('body-parser')
 const app = express()
 // add bodyParser to app for handle
 app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json())
 
 const http = require('http')
 const { Socket } = require('socket.io')
