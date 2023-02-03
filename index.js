@@ -11,7 +11,7 @@ const { Socket } = require('socket.io')
 const server = http.createServer(app)
 // import socket.io on our server
 const io = require('socket.io')(server)
-const mongoClient = require('mongodb').mongoClient
+const MongoClient = require('mongodb').mongoClient
 
 // variables
 const port = process.env.PORT || 3000
@@ -89,6 +89,30 @@ app.get('/', (req, res)=>{
 app.post('/register', (req, res)=>{
     const userName = req.body.username
     const password = req.body.password
+    const fullName = req.body.fullname
+
+    if(fullName == undefined || userName == undefined || password == undefined){
+        res.status(400).json({message: 'please send all the required values!'})
+    }
+    return;
+
+    MongoClient.connect(process.env.MONGO_URL, function(err, db){
+        if (err) console.log(err)
+        const dbo =db.db(process.env.DB_NAME)
+        const user = {
+            fullName: fullName,
+            userName: userName,
+            password: password
+        }
+        dbo.collection("users").insertOne(user, function (err, result){
+            if (err) console.log(err)
+            res.send(result)
+            db.close()
+        })
+        
+    })
+
+    
 })
 
 // run server that we created
