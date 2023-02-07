@@ -3,13 +3,7 @@ require('dotenv').config()
 
 //  import library that we need
 const express = require('express')
-const bodyParser = require('body-parser')
 const app = express()
-// add bodyParser to app for handle
-app.use(bodyParser.urlencoded({
-    extended: false
-}))
-app.use(bodyParser.json())
 
 const http = require('http')
 const { Socket } = require('socket.io')
@@ -18,7 +12,7 @@ const { Socket } = require('socket.io')
 const server = http.createServer(app)
 // import socket.io on our server
 const io = require('socket.io')(server)
-const MongoClient = require('mongodb').MongoClient
+// const MongoClient = require('mongodb').MongoClient
 
 // variables
 const port = process.env.PORT || 3000
@@ -91,38 +85,6 @@ io.on('connection', socket => {
 //  Restful APIs
 app.get('/', (req, res)=>{
     res.send('<h1>HELLO! SERVER RUNNNIG</h1>')
-})
-// Restful Api for register user
-app.post('/register', (req, res)=>{
-    const fullName = req.body.fullname
-    const userName = req.body.username
-    const password = req.body.password
-
-    if(fullName == undefined || userName == undefined || password == undefined){
-        res.status(400).json({
-            message: 'please send all the required values!',
-            error_code: 'required_fields'
-        })
-        return;
-    }
-
-    MongoClient.connect(process.env.MONGO_URL, function(err, db){
-        if (err) console.log(err)
-        const dbo =db.db(process.env.DB_NAME)
-        const user = {
-            fullName: fullName,
-            userName: userName,
-            password: password
-        }
-        dbo.collection("users").insertOne(user, function (err, result){
-            if (err) console.log(err)
-            res.json(result)
-            db.close()
-        })
-        
-    })
-
-    
 })
 
 // run server that we created
